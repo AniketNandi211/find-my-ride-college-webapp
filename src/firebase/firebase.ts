@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore'; // for firestore database
+import UserService from './services/UserService';
 // import 'firebase/auth' // for user Authentication
 
 const firebaseConfig = {
@@ -16,17 +17,8 @@ const app = firebase.initializeApp(firebaseConfig);
 
 // Initiate the firestore
 const database = app.firestore()
-// collection access 
+// collection access
+/** reference to the users collection  */
 export const usersCollection = database.collection('users')
-
-usersCollection
-  .get()
-  .then(querySnapshot => {
-    querySnapshot.docs.map(doc => console.log(doc.data()))
-  })
-
-
-
-
 
 
