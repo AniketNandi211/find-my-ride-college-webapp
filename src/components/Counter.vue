@@ -16,13 +16,31 @@
       </v-btn>
     </v-row>
     <MySnackbar :_snackbar="snackbar" @closed="snackbar = false" />
+    <!-- <span> {{ user }} </span>
+    <v-btn color="success" :loading="isUserLoading" @click="loadUser">
+      user
+    </v-btn> -->
+    <v-row justify="center" class="mt-5">
+      <span v-for="(vehicle, index) in vehicles" :key="index">
+        <span>{{ vehicle.type }},</span>
+      </span>
+    </v-row>
+    <v-btn
+      color="success"
+      class="mt-5"
+      :loading="isVehiclesLoading"
+      @click="loadVehciles"
+    >
+      fetch cars</v-btn
+    >
   </v-container>
 </template>
 
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import { CounterModule } from "@/store/index";
+import { CounterModule, UserModel, VehicleModel } from "@/store/index";
 import MySnackbar from "@/components/MySnackbar.vue";
+// import User from "@/models/user";
 
 @Component({
   name: "Counter",
@@ -30,6 +48,38 @@ import MySnackbar from "@/components/MySnackbar.vue";
 })
 export default class Counter extends Vue {
   snackbar = false;
+
+  // get user() {
+  //   return UserModel.user ?? "no data";
+  // }
+
+  // get isUserLoading() {
+  //   return UserModel.isUserLoading;
+  // }
+
+  // async loadUser() {
+  //   UserModel.registerUser(
+  //     new User(
+  //       "name is optional",
+  //       34,
+  //       "2617235162",
+  //       "a.h@gmai.com",
+  //       "mars bitch"
+  //     )
+  //   );
+  // }
+
+  get vehicles() {
+    return VehicleModel.vehicles;
+  }
+
+  get isVehiclesLoading() {
+    return VehicleModel.vehiclesLoadingState;
+  }
+
+  loadVehciles() {
+    VehicleModel.fetchAllVehicles();
+  }
 
   get count(): number {
     return CounterModule.count;
