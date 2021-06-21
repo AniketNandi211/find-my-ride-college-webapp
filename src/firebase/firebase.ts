@@ -28,10 +28,10 @@ export const usersCollection = database.collection('users')
 /** reference to the Vehicles collection  */
 export const vehiclesCollection = database.collection('vehicles')
 
-// for testinf stuff
+// for testing stuff
 const checkFeature = async () => {
   // custom checking of a feature goes here
-  console.log(await VehicleService.getAllBikes())
+  console.log(await VehicleService.getAllVehicles())
 }
 
 if (firebaseDebug) checkFeature()

@@ -1,7 +1,6 @@
 import Car from '@/models/car'
 import Bike from '@/models/bike'
 import { vehiclesCollection } from '../firebase'
-import { VehicleType } from '@/models/vehicle'
 
 // interface FirebaseVehicleData {
 //     name: string;
@@ -27,38 +26,31 @@ export default class VehicleService {
     static async getAllVehicles(): Promise<Array<Car | Bike>> {
         const vehicles = Array<Car | Bike>()
         // firebase query
-        vehiclesCollection.get()
-            .then(snapshot => {
-                snapshot.docs.map(
-                    doc => vehicles.push(VehicleService.createProceduralVehicleObjects(doc.data()))
-                )
-            })
+        const { docs } = await vehiclesCollection.get()
+        docs.map(
+            doc => vehicles.push(
+                VehicleService.createProceduralVehicleObjects(doc.data()))
+        )
         return vehicles
     }
 
     static async getAllCars(): Promise<Array<Car>> {
         const cars = Array<Car>()
         // firebase query
-        vehiclesCollection.where('type', '==', 'car')
-            .get()
-            .then(snapshot => {
-                snapshot.docs.map(
-                    doc => cars.push(Car.carFromDataObject(doc.data()))
-                )
-            })
+        const { docs } = await vehiclesCollection.where('type', '==', 'car').get()
+        docs.map(
+            doc => cars.push(Car.carFromDataObject(doc.data()))
+        )
         return cars
     }
 
     static async getAllBikes(): Promise<Array<Bike>> {
         const bikes = Array<Bike>()
         // firebase query
-        vehiclesCollection.where('type', '==', 'bike')
-            .get()
-            .then(snapshot => {
-                snapshot.docs.map(
-                    doc => bikes.push(Bike.bikeFromDataObject(doc.data()))
-                )
-            })
+        const { docs } = await vehiclesCollection.where('type', '==', 'bike').get()
+        docs.map(
+            doc => bikes.push(Bike.bikeFromDataObject(doc.data()))
+        )
         return bikes
     }
 

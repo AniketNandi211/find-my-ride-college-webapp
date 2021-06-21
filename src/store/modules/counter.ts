@@ -15,6 +15,7 @@ export default class Counter extends VuexModule {
 
     @Mutation
     private changeLoadingState(loading: boolean) {
+        console.log(`counter state : ${loading}`)
         this.loading = loading
     }
 
@@ -46,7 +47,6 @@ export default class Counter extends VuexModule {
     @Action({ rawError: true })
     async randomNumberIncrementer(): Promise<void> {
         this.context.commit('changeLoadingState', true)
-        console.log(this.counter)
         this.context.commit('loadAsyncCounter', await asyncCounterGenerator(5, 1000))
         this.context.commit('changeLoadingState', false)
         this.context.commit('counterInc', this.asyncCounter)

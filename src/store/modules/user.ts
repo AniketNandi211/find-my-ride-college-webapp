@@ -9,19 +9,18 @@ export default class UserModule extends VuexModule {
 
     // these fields must be and cannot be changed without @Mutation (s)
 
+    // datasets for User
     private _user: User | undefined = undefined
-    private _users = Array<User>()
     private loadingUser = false
+
+    // datasets for Users
+    private _users = Array<User>()
     private loadingUsers = false
 
+    // mutations for User
     @Mutation
     private setUserLoadingState(state: boolean) {
         this.loadingUser = state
-    }
-
-    @Mutation
-    private setUsersLoadingState(state: boolean) {
-        this.loadingUsers = state
     }
 
     @Mutation
@@ -29,11 +28,18 @@ export default class UserModule extends VuexModule {
         this._user = user
     }
 
+    // mutations for Users
+    @Mutation
+    private setUsersLoadingState(state: boolean) {
+        this.loadingUsers = state
+    }
+
     @Mutation
     private setUsers(users: Array<User>) {
         this._users = users
     }
 
+    // Action for user
     @Action({ rawError: true })
     async getUser(id: string) {
         this.context.commit('setUserLoadingState', true)
@@ -41,6 +47,7 @@ export default class UserModule extends VuexModule {
         this.context.commit('setUserLoadingState', false)
     }
 
+    // Action for users
     @Action({ rawError: true })
     async getAllUsers() {
         this.context.commit('setUsersLoadingState', true)
@@ -48,6 +55,7 @@ export default class UserModule extends VuexModule {
         this.context.commit('setUsersLoadingState', false)
     }
 
+    // Action for regestering a user
     @Action({ rawError: true })
     async registerUser(user: User) {
         this.context.commit('setUserLoadingState', true)

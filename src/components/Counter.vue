@@ -21,8 +21,8 @@
       user
     </v-btn> -->
     <v-row justify="center" class="mt-5">
-      <span v-for="(vehicle, index) in vehicles" :key="index">
-        <span>{{ vehicle.type }},</span>
+      <span v-for="({ _brandName }, index) in vehicles" :key="index">
+        <span>{{ _brandName }},</span>
       </span>
     </v-row>
     <v-btn
@@ -40,6 +40,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import { CounterModule, UserModel, VehicleModel } from "@/store/index";
 import MySnackbar from "@/components/MySnackbar.vue";
+import Car from "@/models/car";
+import Bike from "@/models/bike";
 // import User from "@/models/user";
 
 @Component({
@@ -48,37 +50,32 @@ import MySnackbar from "@/components/MySnackbar.vue";
 })
 export default class Counter extends Vue {
   snackbar = false;
+  vehicles = Array<Car | Bike>();
 
   // get user() {
-  //   return UserModel.user ?? "no data";
+  //   return UserModel.users;
   // }
 
   // get isUserLoading() {
-  //   return UserModel.isUserLoading;
+  //   return UserModel.isUsersLoading;
   // }
 
-  // async loadUser() {
-  //   UserModel.registerUser(
-  //     new User(
-  //       "name is optional",
-  //       34,
-  //       "2617235162",
-  //       "a.h@gmai.com",
-  //       "mars bitch"
-  //     )
-  //   );
+  // loadUser() {
+  //   UserModel.getAllUsers();
   // }
 
-  get vehicles() {
-    return VehicleModel.vehicles;
-  }
+  // get vehicles() {
+  //   return VehicleModel.vehicles;
+  // }
 
   get isVehiclesLoading() {
     return VehicleModel.vehiclesLoadingState;
   }
 
-  loadVehciles() {
-    VehicleModel.fetchAllVehicles();
+  async loadVehciles() {
+    this.vehicles = Array<Car | Bike>();
+    await VehicleModel.fetchAllVehicles();
+    this.vehicles = VehicleModel.vehicles;
   }
 
   get count(): number {

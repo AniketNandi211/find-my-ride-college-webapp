@@ -10,16 +10,12 @@ export default class UserService {
     // Read and return all documents
     static async getAllusers(): Promise<Array<User>> {
         const users = Array<User>()
-
-        usersCollection
-            .get()
-            .then(querySnapshot => {
-                querySnapshot.docs.map(
-                    doc => users.push(
-                        User.userFromData(doc.data())
-                    )
-                )
-            })
+        const { docs } = await usersCollection.get() // querySnapshot.docs
+        docs.map(
+            doc => users.push(
+                User.userFromData(doc.data())
+            )
+        )
         return users
     }
 

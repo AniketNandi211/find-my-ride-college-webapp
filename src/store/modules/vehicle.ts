@@ -27,18 +27,16 @@ export default class VehicleModule extends VuexModule {
     }
 
     @Mutation
-    private setVehicles(cars: Array<Car | Bike>) {
-        this._vehicles = cars
+    private setVehicles(vehicles: Array<Car | Bike>) {
+        this._vehicles = vehicles
     }
 
     // action(s) for list of vehicles
 
     @Action({ rawError: true })
-    public async fetchAllVehicles(): Promise<void> {
+    async fetchAllVehicles(): Promise<void> {
         this.context.commit('setVehiclesLoadingState', true)
-        const vehicles = await VehicleService.getAllVehicles()
-        console.log(vehicles)
-        this.context.commit('setVehicles', vehicles)
+        this.context.commit('setVehicles', await VehicleService.getAllVehicles())
         this.context.commit('setVehiclesLoadingState', false)
     }
 
@@ -55,7 +53,7 @@ export default class VehicleModule extends VuexModule {
 
     // action(s) for list of cars
     @Action({ rawError: true })
-    public async fetchAllCars(): Promise<void> {
+    async fetchAllCars(): Promise<void> {
         this.context.commit('setCarsLoadingState', true)
         this.context.commit('setCars', await VehicleService.getAllCars())
         this.context.commit('setCarsLoadingState', false)
@@ -74,7 +72,7 @@ export default class VehicleModule extends VuexModule {
 
     // action(s) for list of bikes
     @Action({ rawError: true })
-    public async fetchAllBikes(): Promise<void> {
+    async fetchAllBikes(): Promise<void> {
         this.context.commit('setBikesLoadingState', true)
         this.context.commit('setBikes', await VehicleService.getAllBikes())
         this.context.commit('setBikesLoadingState', false)
